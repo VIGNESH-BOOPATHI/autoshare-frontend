@@ -1,30 +1,32 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header'; // Navigation component
-import Footer from './components/Footer'; // Footer component
-import Home from './pages/Home'; // Home page
-import Page from './components/Page'; // Component to dynamically render static pages
-import Register from './pages/Register'; // Registration page
-import Login from './pages/Login'; // Login with OTP generation
-import VerifyOTP from './pages/VerifyOTP'; // OTP verification
-import ToggleRole from './pages/ToggleRole'; // Toggle user roles
-import AuthContext, { AuthProvider } from './context/AuthContext'; // Context for authentication state
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import VerifyOTP from './pages/VerifyOTP';
+import ToggleRole from './pages/ToggleRole';
+import Page from './components/Page';
+import useAuthToken from './hooks/useAuthToken'; // Ensure correct import
 
-const AppRouter = () => (
-  <AuthProvider> {/* Ensure all components have access to AuthContext */}
+const AppRouter = () => {
+  useAuthToken(); // Make sure this is used within the AuthProvider context
+
+  return (
     <Router>
-      <Header /> {/* Navigation bar */}
+      <Header />
       <Routes>
-        <Route exact path="/" element={<Home />} /> {/* Home page */}
-        <Route path="/register" element={<Register />} /> {/* User registration */}
-        <Route path="/login" element={<Login />} /> {/* User login with OTP generation */}
-        <Route path="/verify-otp" element={<VerifyOTP />} /> {/* OTP verification */}
-        <Route path="/page/:pageName" element={<Page />} /> {/* Dynamic routing for static pages */}
-        <Route path="/toggle-role" element={<ToggleRole />} /> {/* Toggle between user and host */}
+        <Route exact path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/page/:pageName" element={<Page />} />
+        <Route path="/toggle-role" element={<ToggleRole />} />
       </Routes>
-      <Footer /> {/* Footer at the bottom of the page */}
+      <Footer />
     </Router>
-  </AuthProvider>
-);
+  );
+};
 
-export default AppRouter; // Default export for use in App.jsx
+export default AppRouter;

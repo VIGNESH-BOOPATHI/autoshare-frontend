@@ -1,11 +1,13 @@
 import React from 'react';
-import AppRouter from './AppRouter'; // Importing the Router setup
+import { AuthProvider } from './context/AuthContext'; // Correct import
+import AppRouter from './AppRouter';
 import './App.css';
 
 const App = () => (
-  <div className="App">
-    <AppRouter /> // Main Router component
-  </div>
+  <AuthProvider> {/* Ensure this wraps all other components */}
+    <AppRouter />
+  </AuthProvider>
 );
 
 export default App;
+

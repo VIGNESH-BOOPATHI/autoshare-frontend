@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useNavigate } from 'react-router-dom'; // For navigation
-import * as Yup from 'yup'; // For validation
+import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation
+import * as Yup from 'yup'; // For form validation
 import axios from 'axios';
 
 const Login = () => {
@@ -25,8 +25,7 @@ const Login = () => {
         const isOtpSent = response.data.message === otpMessage; // Check if OTP was sent
 
         if (isOtpSent) {
-          // Navigate to VerifyOTP, passing the email
-          navigate('/verify-otp', { state: { email: values.email } });
+          navigate('/verify-otp', { state: { email: values.email } }); // Navigate to VerifyOTP
         } else {
           setStatus({ error: 'Login failed' }); // Default error handling
         }
@@ -49,14 +48,14 @@ const Login = () => {
       {({ isSubmitting, status }) => (
         <div className="container">
           <h2>Login</h2>
-          {status?.error && <div className="text-danger">{status.error}</div>} // Display error message
+          {status?.error && <div className="text-danger">{status.error}</div>} {/* Display error */}
           <Form>
             <div className="mb-3">
               <label htmlFor="email">Email</label>
               <Field type="email" name="email" className="form-control" />
               <ErrorMessage name="email" component="div" className="text-danger" />
             </div>
-            <div className="mb-3">
+            <div class="mb-3">
               <label htmlFor="password">Password</label>
               <Field type="password" name="password" className="form-control" />
               <ErrorMessage name="password" component="div" className="text-danger" />
@@ -65,6 +64,13 @@ const Login = () => {
               Send OTP
             </button>
           </Form>
+
+          <div className="mt-3"> {/* This is the new text to guide new users */}
+            <p>
+              New to our site?{" "}
+              <Link to="/register">Create an account</Link> {/* Registration link */}
+            </p>
+          </div>
         </div>
       )}
     </Formik>
