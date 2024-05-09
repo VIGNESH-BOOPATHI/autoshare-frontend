@@ -1,9 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom'; // For accessing passed data
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-const VerifyOTP = ({ email, setAuthToken }) => {
+const VerifyOTP = () => {
+  const location = useLocation(); // Access location data
+  const email = location.state?.email; // Retrieve the email passed from Login
+
   const initialValues = {
     otp: '',
   };
@@ -13,22 +17,21 @@ const VerifyOTP = ({ email, setAuthToken }) => {
   });
 
   const onSubmit = (values, { setSubmitting, setStatus }) => {
-    const data = { email, otp: values.otp };
+    const data = { email, otp: values.otp }; // Include email in the request
     
     axios
-      .post('https://autoshare-backend.onrender.com/auth/verify-otp', data)
+      .post('https://autoshare-backend.onrender.com/auth/verify-otp', data) // Verify OTP with email
       .then((response) => {
         const token = response.data.token;
-        localStorage.setItem('authToken', token); // Store JWT in localStorage
-        setAuthToken(token); // Set the token in context or state
-        setStatus({ success: 'OTP verified successfully' });
+        // Handle successful verification (e.g., store token, navigate to a new page)
+        console.log("OTP comfirmed");
       })
       .catch((error) => {
-        const errorMsg = error.response?.data?.error || 'OTP verification failed';
+        const errorMsg = error.response?.data?.error || 'OTP verification failed'; // Handle error
         setStatus({ error: errorMsg });
       })
       .finally(() => {
-        setSubmitting(false);
+        setSubmitting(false); // Re-enable form submission
       });
   };
 
@@ -37,8 +40,7 @@ const VerifyOTP = ({ email, setAuthToken }) => {
       {({ isSubmitting, status }) => (
         <div className="container">
           <h2>Verify OTP</h2>
-          {status?.error && <div className="text-danger">{status.error}</div>}
-          {status?.success && <div className="text-success">{status.success}</div>}
+          {status?.error && <div className="text-danger">{status.error}</div>} // Display error
           <Form>
             <div className="mb-3">
               <label htmlFor="otp">Enter OTP</label>
