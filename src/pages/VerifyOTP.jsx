@@ -1,12 +1,15 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom'; // For accessing passed data
+import React, { useContext } from 'react'; // Import useContext
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import AuthContext from '../context/AuthContext'; // AuthContext for authentication
 
 const VerifyOTP = () => {
   const location = useLocation(); // Access location data
-  const email = location.state?.email; // Retrieve the email passed from Login
+  const navigate = useNavigate(); // For navigation
+  const { login } = useContext(AuthContext); // Context for storing token
+  const email = location.state?.email; // Retrieve email from location state
 
   const initialValues = {
     otp: '',
@@ -23,8 +26,8 @@ const VerifyOTP = () => {
       .post('https://autoshare-backend.onrender.com/auth/verify-otp', data) // Verify OTP with email
       .then((response) => {
         const token = response.data.token;
-        // Handle successful verification (e.g., store token, navigate to a new page)
-        console.log("OTP comfirmed");
+        login(token); // Store the token in context and local storage
+        navigate('/'); // Navigate to Home page on success
       })
       .catch((error) => {
         const errorMsg = error.response?.data?.error || 'OTP verification failed'; // Handle error
@@ -36,7 +39,11 @@ const VerifyOTP = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
       {({ isSubmitting, status }) => (
         <div className="container">
           <h2>Verify OTP</h2>

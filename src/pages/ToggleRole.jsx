@@ -1,41 +1,50 @@
-import React from 'react';
+import React, { useContext } from 'react'; // Import useContext
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Navigation
+import AuthContext from '../context/AuthContext'; // AuthContext for updating token
 
-const ToggleRole = ({ setAuthToken }) => {
+const ToggleRole = () => {
+  const navigate = useNavigate();
+  const { user, login } = useContext(AuthContext); // Context for user and login
   const initialValues = {
-    email: '',
+    email: user?.email || '', // Default to user's email
     password: '',
   };
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required'),
-    password: Yup.string().required('Required'),
+    password: Yup.string().required('Required'), // Need password to confirm identity
   });
 
   const onSubmit = (values, { setSubmitting, setStatus }) => {
     axios
-      .post('https://autoshare-backend.onrender.com/auth/toggle-role', values)
+      .post('https://autoshare-backend.onrender.com/auth/toggle-role', values) // Request to toggle role
       .then((response) => {
-        setStatus({ success: response.data.message });
+        const newToken = response.data.token; // New token with updated role
+        login(newToken); // Store the new token
+        navigate('/'); // Navigate back to Home
       })
       .catch((error) => {
-        const errorMsg = error.response?.data?.error || 'Role toggle failed';
+        const errorMsg = error.response?.data?.error || 'Toggle role failed'; // Handle error
         setStatus({ error: errorMsg });
       })
       .finally(() => {
-        setSubmitting(false);
+        setSubmitting(false); // Re-enable form submission
       });
   };
 
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
       {({ isSubmitting, status }) => (
         <div className="container">
           <h2>Toggle Role</h2>
-          {status?.error && <div className="text-danger">{status.error}</div>}
-          {status?.success && <div className="text-success">{status.success}</div>}
+          {status?.error && <div className="text-danger">{status.error}</div>} // Display error
           <Form>
             <div className="mb-3">
               <label htmlFor="email">Email</label>
