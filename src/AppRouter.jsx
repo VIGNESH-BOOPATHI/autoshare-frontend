@@ -1,22 +1,30 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use `Routes` instead of `Switch`
-import Home from './pages/Home';
-import Page from './components/Page';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header'; // Navigation component
+import Footer from './components/Footer'; // Footer component
+import Home from './pages/Home'; // Home page
+import Page from './components/Page'; // Component to dynamically render static pages
+import Register from './pages/Register'; // Registration page
+import Login from './pages/Login'; // Login with OTP generation
+import VerifyOTP from './pages/VerifyOTP'; // OTP verification
+import ToggleRole from './pages/ToggleRole'; // Toggle user roles
+import AuthContext, { AuthProvider } from './context/AuthContext'; // Context for authentication state
 
 const AppRouter = () => (
-  <AuthProvider>
+  <AuthProvider> {/* Ensure all components have access to AuthContext */}
     <Router>
-      <Header /> {/* Header with navigation */}
-      <Routes> {/* Use `Routes` to define your routes */}
-        <Route exact path="/" element={<Home />} /> {/* Use `element` instead of `component` */}
-        <Route path="/page/:pageName" element={<Page />} />
+      <Header /> {/* Navigation bar */}
+      <Routes>
+        <Route exact path="/" element={<Home />} /> {/* Home page */}
+        <Route path="/register" element={<Register />} /> {/* User registration */}
+        <Route path="/login" element={<Login />} /> {/* User login with OTP generation */}
+        <Route path="/verify-otp" element={<VerifyOTP />} /> {/* OTP verification */}
+        <Route path="/page/:pageName" element={<Page />} /> {/* Dynamic routing for static pages */}
+        <Route path="/toggle-role" element={<ToggleRole />} /> {/* Toggle between user and host */}
       </Routes>
-      <Footer /> {/* Footer at the bottom */}
+      <Footer /> {/* Footer at the bottom of the page */}
     </Router>
   </AuthProvider>
 );
 
-export default AppRouter;
+export default AppRouter; // Default export for use in App.jsx
