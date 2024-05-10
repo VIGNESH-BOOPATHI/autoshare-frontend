@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import VerifyOTP from './pages/VerifyOTP';
 import ToggleRole from './pages/ToggleRole';
 import Page from './components/Page';
+import VehicleList from './pages/VehicleList'; // New import for the vehicle listing
+import VehicleDetails from './pages/VehicleDetails'; // New import for viewing a specific vehicle
+import VehicleManagement from './pages/VehicleManagement'; // New import for vehicle CRUD operations
 import useAuthToken from './hooks/useAuthToken'; // Ensure correct import
 
 const AppRouter = () => {
@@ -23,6 +26,9 @@ const AppRouter = () => {
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/page/:pageName" element={<Page />} />
         <Route path="/toggle-role" element={<ToggleRole />} />
+        <Route path="/vehicles" element={<VehicleList />} /> {/* List all vehicles */}
+        <Route path="/vehicles/:id" element={<VehicleDetails />} /> {/* View a specific vehicle */}
+        <Route path="/manage-vehicles" element={<VehicleManagement />} /> {/* Vehicle management */}
       </Routes>
       <Footer />
     </Router>
