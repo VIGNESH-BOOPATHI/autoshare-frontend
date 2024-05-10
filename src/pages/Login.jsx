@@ -55,7 +55,7 @@ const Login = () => {
               <Field type="email" name="email" className="form-control" />
               <ErrorMessage name="email" component="div" className="text-danger" />
             </div>
-            <div class="mb-3">
+            <div className="mb-3">
               <label htmlFor="password">Password</label>
               <Field type="password" name="password" className="form-control" />
               <ErrorMessage name="password" component="div" className="text-danger" />

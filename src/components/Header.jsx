@@ -47,31 +47,6 @@ const Header = () => {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/page/about">
-                About Us
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/page/contact">
-                Contact Us
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/page/privacy-policy">
-                Privacy Policy
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/page/terms-conditions">
-                Terms & Conditions
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/page/cancellation-refund">
-                Cancellation/Refund Policies
-              </Link>
-            </li>
           </ul>
 
           <ul className="navbar-nav">
@@ -113,3 +88,6 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
