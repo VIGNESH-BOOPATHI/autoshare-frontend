@@ -24,6 +24,25 @@ const DataProvider = ({ children }) => {
       });
   }, []); // Only run this effect once when the component is mounted
 
+
+  const addVehicle = async (vehicleData) => {
+    try {
+      const formData = new FormData();
+      for (const key in vehicleData) {
+        formData.append(key, vehicleData[key]);
+      }
+      await axios.post('https://autoshare-backend.onrender.com/vehicles', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // Assuming response is not required for updating UI, otherwise, update the state accordingly
+    } catch (error) {
+      console.error('Error adding vehicle:', error);
+      throw error;
+    }
+  };
+
   // Function to get a user by ID
   const getUserById = (userId) => {
     if (users[userId]) {
@@ -47,10 +66,11 @@ const DataProvider = ({ children }) => {
   };
 
   return (
-    <DataContext.Provider value={{ vehicles, getUserById }}>
+    <DataContext.Provider value={{ vehicles, getUserById, addVehicle }}>
       {children}
     </DataContext.Provider>
   );
 };
+
 
 export { DataContext, DataProvider };
