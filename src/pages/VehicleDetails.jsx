@@ -1,40 +1,35 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { Container, Button, Alert } from 'react-bootstrap';
 import AuthContext from '../context/AuthContext';
+import { DataContext } from '../context/DataContext';
 
 const VehicleDetails = () => {
   const { id } = useParams(); // Get the vehicle ID from the URL parameters
+  const { vehicles, getUserById } = useContext(DataContext); // Get data and functions from context
+  const { user } = useContext(AuthContext); // Access user role
   const [vehicle, setVehicle] = useState(null); // Vehicle details state
   const [ownerName, setOwnerName] = useState(null); // Owner's name
   const [error, setError] = useState(null); // Error state
-  const { user } = useContext(AuthContext); // Access user role
 
   useEffect(() => {
-    // Fetch the vehicle details by ID
-    axios
-      .get(`https://autoshare-backend.onrender.com/vehicles/${id}`)
-      .then((response) => {
-        const vehicleData = response.data;
-        setVehicle(vehicleData);
+    const vehicleDetails = vehicles.find((v) => v._id === id); // Find the vehicle in the context data
+    if (vehicleDetails) {
+      setVehicle(vehicleDetails);
 
-        // Fetch owner details
-        const ownerId = vehicleData.addedBy;
-        axios
-          .get(`https://autoshare-backend.onrender.com/users/${ownerId}`)
-          .then((res) => {
-            setOwnerName(res.data.name);
-          })
-          .catch((err) => {
-            console.error('Error fetching owner info:', err);
-          });
-      })
-      .catch((error) => {
-        console.error('Error fetching vehicle by ID:', error);
-        setError('Failed to fetch vehicle details'); // Display an error message
-      });
-  }, [id]);
+      const ownerId = vehicleDetails.addedBy;
+      getUserById(ownerId)
+        .then((user) => {
+          setOwnerName(user.name); // Set the owner's name
+        })
+        .catch((err) => {
+          console.error('Error fetching owner info:', err);
+          setError('Failed to fetch owner details');
+        });
+    } else {
+      setError('Vehicle not found');
+    }
+  }, [id, vehicles, getUserById]); // Only run this effect when ID or vehicles data changes
 
   if (error) {
     return (

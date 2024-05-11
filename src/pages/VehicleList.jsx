@@ -1,46 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import { DataContext } from '../context/DataContext';
 
 const VehicleList = () => {
-  const [vehicles, setVehicles] = useState([]);
-  const [owners, setOwners] = useState({});
-  const [error, setError] = useState(null);
+  const { vehicles, getUserById } = useContext(DataContext); // Get data from context
+  const [ownerNames, setOwnerNames] = useState({}); // Cache owner names
+  const [error, setError] = useState(null); // Handle errors
 
   useEffect(() => {
-    axios
-      .get('https://autoshare-backend.onrender.com/vehicles')
-      .then((response) => {
-        if (Array.isArray(response.data)) {
-          setVehicles(response.data);
-
-          // Fetch the owner details
-          response.data.forEach((vehicle) => {
-            const ownerId = vehicle.addedBy;
-            if (!owners[ownerId]) {
-              axios
-                .get(`https://autoshare-backend.onrender.com/users/${ownerId}`)
-                .then((res) => {
-                  setOwners((prevOwners) => ({
-                    ...prevOwners,
-                    [ownerId]: res.data.name,
-                  }));
-                })
-                .catch((err) => {
-                  console.error('Error fetching owner info:', err);
-                });
-            }
+    vehicles.forEach((vehicle) => {
+      const ownerId = vehicle.addedBy;
+      if (!ownerNames[ownerId]) {
+        getUserById(ownerId)
+          .then((user) => {
+            setOwnerNames((prev) => ({
+              ...prev,
+              [ownerId]: user.name,
+            }));
+          })
+          .catch((err) => {
+            console.error('Error fetching owner name:', err);
+            setError('Failed to fetch owner names');
           });
-        } else {
-          setError('Invalid response format');
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching vehicles:', error);
-        setError('Error fetching vehicles');
-      });
-  }, []);
+      }
+    });
+  }, [vehicles, getUserById]); // Run this effect when vehicles or getUserById changes
 
   if (error) {
     return (
@@ -64,7 +49,7 @@ const VehicleList = () => {
                 <Card.Body>
                   <Card.Title>{vehicle.name}</Card.Title>
                   <Card.Text>
-                    Owner: {owners[vehicle.addedBy] || 'Loading...'} <br />
+                    Owner: {ownerNames[vehicle.addedBy] || 'Loading...'} <br />
                     Category: {vehicle.category} <br />
                     Price Per Day: ${vehicle.pricePerDay.toFixed(2)}
                   </Card.Text>
