@@ -65,8 +65,36 @@ const DataProvider = ({ children }) => {
       });
   };
 
+
+  const updateVehicle = async (vehicleId, vehicleData) => {
+    try {
+      const formData = new FormData();
+      for (const key in vehicleData) {
+        if (vehicleData[key] !== null) {
+          formData.append(key, vehicleData[key]);
+        }
+      }
+      await axios.put(`https://autoshare-backend.onrender.com/vehicles/${vehicleId}`, formData);
+    } catch (error) {
+      console.error('Error updating vehicle:', error);
+      throw error;
+    }
+  };
+  
+
+  const deleteVehicle = async (vehicleId) => {
+    try {
+      await axios.delete(`https://autoshare-backend.onrender.com/vehicles/${vehicleId}`);
+      // Update local state after deletion
+      setVehicles((prevVehicles) => prevVehicles.filter(vehicle => vehicle._id !== vehicleId));
+    } catch (error) {
+      console.error('Error deleting vehicle:', error);
+      throw error;
+    }
+  };
+  
   return (
-    <DataContext.Provider value={{ vehicles, getUserById, addVehicle }}>
+    <DataContext.Provider value={{ vehicles, getUserById, addVehicle, updateVehicle, deleteVehicle }}>
       {children}
     </DataContext.Provider>
   );

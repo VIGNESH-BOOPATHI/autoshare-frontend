@@ -12,7 +12,7 @@ import VehicleList from './pages/VehicleList'; // New import for the vehicle lis
 import VehicleDetails from './pages/VehicleDetails'; // New import for viewing a specific vehicle
 import VehicleManagement from './pages/VehicleManagement'; // New import for vehicle CRUD operations
 import useAuthToken from './hooks/useAuthToken'; // Ensure correct import
-
+import EditVehicle from './pages/EditVehicle';
 const AppRouter = () => {
   useAuthToken(); // Make sure this is used within the AuthProvider context
 
@@ -29,6 +29,7 @@ const AppRouter = () => {
         <Route path="/vehicles" element={<VehicleList />} /> {/* List all vehicles */}
         <Route path="/vehicles/:id" element={<VehicleDetails />} /> {/* View a specific vehicle */}
         <Route path="/manage-vehicles" element={<VehicleManagement />} /> {/* Vehicle management */}
+        <Route path="/edit-vehicle/:id"  element={<EditVehicle />} />  {/*Edit Vehicle */}
       </Routes>
       <Footer />
     </Router>

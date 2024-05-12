@@ -23,6 +23,9 @@ const VehicleList = () => {
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false); // State for showing/hiding filter modal
 
+
+
+
   useEffect(() => {
     setFilteredVehicles(vehicles);
   }, [vehicles]);
@@ -203,6 +206,7 @@ const VehicleList = () => {
           ))
         )}
       </Row>
+    
     </Container>
   );
 };
