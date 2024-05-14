@@ -10,8 +10,9 @@ import {
   Modal,
 } from "react-bootstrap";
 import { DataContext } from "../context/DataContext";
-import AuthContext from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { Formik, Field } from "formik";
+import "../App.css";
 
 const VehicleList = () => {
   const { vehicles, getUserById } = useContext(DataContext);
@@ -22,9 +23,6 @@ const VehicleList = () => {
 
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false); // State for showing/hiding filter modal
-
-
-
 
   useEffect(() => {
     setFilteredVehicles(vehicles);
@@ -185,7 +183,15 @@ const VehicleList = () => {
           filteredVehicles.map((vehicle) => (
             <Col key={vehicle._id} md={4} className="mb-3">
               <Card className="vehicle-card">
-                <Card.Img className="card-img"
+                {user && user.userId === vehicle.addedBy && (
+                  <span className="owned-badge">Owned</span>
+                )}
+                {!vehicle.available && (
+            <span className="unavailable-badge">Not Available</span>
+          )}
+
+                <Card.Img
+                  className="card-img"
                   variant="top"
                   src={vehicle.imageUrl}
                   alt={vehicle.name}
@@ -195,7 +201,7 @@ const VehicleList = () => {
                   <Card.Text>
                     Owner: {ownerNames[vehicle.addedBy] || "Loading..."} <br />
                     Category: {vehicle.category} <br />
-                    Price Per Day: ${vehicle.pricePerDay.toFixed(2)}
+                    Price Per Day(Rs): {vehicle.pricePerDay.toFixed(2)}
                   </Card.Text>
                   <Link to={`/vehicles/${vehicle._id}`}>
                     <Button variant="primary">View Details</Button>
@@ -206,7 +212,6 @@ const VehicleList = () => {
           ))
         )}
       </Row>
-    
     </Container>
   );
 };

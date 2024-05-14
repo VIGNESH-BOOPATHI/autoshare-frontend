@@ -13,12 +13,16 @@ import VehicleDetails from './pages/VehicleDetails'; // New import for viewing a
 import VehicleManagement from './pages/VehicleManagement'; // New import for vehicle CRUD operations
 import useAuthToken from './hooks/useAuthToken'; // Ensure correct import
 import EditVehicle from './pages/EditVehicle';
+import BookingForm from './pages/BookingForm';
+import Sidebar from './components/Sidebar'; // Import the Sidebar component
+
 const AppRouter = () => {
   useAuthToken(); // Make sure this is used within the AuthProvider context
 
   return (
     <Router>
       <Header />
+      <Sidebar /> {/* Include the Sidebar component */}
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
@@ -30,6 +34,7 @@ const AppRouter = () => {
         <Route path="/vehicles/:id" element={<VehicleDetails />} /> {/* View a specific vehicle */}
         <Route path="/manage-vehicles" element={<VehicleManagement />} /> {/* Vehicle management */}
         <Route path="/edit-vehicle/:id"  element={<EditVehicle />} />  {/*Edit Vehicle */}
+        <Route path='/booking-form' element={<BookingForm />} />
       </Routes>
       <Footer />
     </Router>

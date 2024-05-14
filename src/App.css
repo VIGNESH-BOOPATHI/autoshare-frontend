@@ -49,3 +49,103 @@
   height: 200px; /* Adjust the height as needed */
   object-fit: cover; /* Ensure the image covers the specified height */
 }
+
+.owned-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: green; /* Choose your desired background color */
+  color: white;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.unavailable-badge {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: red; /* Choose your desired background color */
+  color: white;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100%;
+  width: 250px;
+  background-color: whitesmoke;
+  z-index: 1000;
+  transition: left 0.3s ease-in-out;
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Arrange content in a column */
+  align-items: center; /* Center content horizontally */
+}
+
+.sidebar.open {
+  transform: translateX(0); /* Slide the sidebar into view */
+  left: 0; /* Slide the sidebar into view */
+}
+
+.sidebar-toggle {
+  color: black;
+  position: absolute;
+  top: 10px;
+  right: -40px; /* Adjust the position of the toggle button */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  transition: right 0.3s ease-in-out; /* Add transition effect */
+}
+
+.sidebar-content {
+  padding: 20px;
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Add border radius for rounded corners */
+  margin-top: 20px; /* Add margin from the top */
+  cursor: pointer; /* Add pointer cursor for dropdown effect */
+  text-align: center; /* Center text */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-content h4 {
+  margin-bottom: 10px;
+  cursor: pointer; /* Add pointer cursor for dropdown effect */
+  text-align: center; /* Center text */
+}
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+
+.sidebar-toggle .arrow {
+  color: #333; /* Change the color to contrast with the white background */
+  transition: transform 0.3s ease-in-out; /* Add transition effect */
+}
+
+
+.sidebar.open .sidebar-toggle {
+  right: 10px; /* Adjust the position when sidebar is open */
+}
+
+.sidebar.open .arrow {
+  transform: rotate(180deg); /* Rotate the arrow when sidebar is open */
+}
