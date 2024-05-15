@@ -40,8 +40,14 @@ const VehicleList = () => {
             }));
           })
           .catch((err) => {
-            console.error("Error fetching owner name:", err);
-            setError("Failed to fetch owner names");
+            if (error.response && error.response.status === 403) {
+              // Do something to handle the 403 Forbidden error, or simply ignore it
+              console.error("Forbidden: You don't have permission to access this resource.");
+          } else {
+              // Handle other errors
+              console.error("Error fetching booking details:", error);
+              setError("Failed to fetch booking details");
+          }
           });
       }
     });

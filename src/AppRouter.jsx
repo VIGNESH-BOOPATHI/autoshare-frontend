@@ -11,7 +11,7 @@ import Page from './components/Page';
 import VehicleList from './pages/VehicleList'; // New import for the vehicle listing
 import VehicleDetails from './pages/VehicleDetails'; // New import for viewing a specific vehicle
 import VehicleManagement from './pages/VehicleManagement'; // New import for vehicle CRUD operations
-import useAuthToken from './hooks/useAuthToken'; // Ensure correct import
+import  useAuthToken  from './hooks/useAuthToken'; // Ensure correct import
 import EditVehicle from './pages/EditVehicle';
 import BookingForm from './pages/BookingForm';
 import Sidebar from './components/Sidebar'; // Import the Sidebar component
