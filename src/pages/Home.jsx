@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import { FaSync } from 'react-icons/fa'; // Importing the refresh icon
@@ -11,6 +11,11 @@ import image3 from './photos/william-daigneault-WPNm2A_lAQo-unsplash.jpg';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    // Display alert message with OK button
+    alert('Click the reload icon, whenever Home is shown');
+  }, []);
 
   const handleReload = () => {
     window.location.reload(); // Reload the website
