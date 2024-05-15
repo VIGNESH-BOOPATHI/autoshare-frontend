@@ -40,9 +40,9 @@ const VehicleList = () => {
             }));
           })
           .catch((err) => {
-            if (error.response && error.response.status === 403) {
-              // Do something to handle the 403 Forbidden error, or simply ignore it
-              console.error("Forbidden: You don't have permission to access this resource.");
+            if (error.response && error.response.status === 404) {
+              // Do something to handle the 404 Not Found error, or simply ignore it
+              console.error("Resource not found.");
           } else {
               // Handle other errors
               console.error("Error fetching booking details:", error);
