@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext"; // AuthContext for authentication state
 
@@ -6,6 +6,12 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const navigate = useNavigate(); // Navigation to switch routes
+
+
+  useEffect(() => {
+    // Display alert message with OK button
+    alert('Click the reload icon, whenever Home is shown');
+  }, []);
 
   const toggleNavbar = () => {
     setIsNavbarOpen(!isNavbarOpen);
@@ -16,6 +22,7 @@ const Header = () => {
       navigate("/toggle-role"); // Navigate to the role toggle component
     }
   };
+
 
   return (
     <header className="navbar navbar-expand-lg navbar-light bg-light">

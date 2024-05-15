@@ -12,10 +12,6 @@ import image3 from './photos/william-daigneault-WPNm2A_lAQo-unsplash.jpg';
 const Home = () => {
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    // Display alert message with OK button
-    alert('Click the reload icon, whenever Home is shown');
-  }, []);
 
   const handleReload = () => {
     window.location.reload(); // Reload the website
