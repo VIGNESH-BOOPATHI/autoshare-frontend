@@ -39,7 +39,7 @@ const VehicleManagement = () => {
     try {
       await addVehicle(values); // Use addVehicle from DataContext
       setError(null); // Reset error state
-      navigate('/vehicles'); // Redirect to vehicle listing
+      navigate('/'); // Redirect to vehicle listing
     } catch (error) {
       setError(error.response?.data?.error || 'Failed to add vehicle'); // Handle error
     } finally {

@@ -19,7 +19,6 @@ const VehicleDetails = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { authToken } = useContext(AuthContext); // Get authToken from AuthContext
-  const [refreshKey, setRefreshKey] = useState(true);
 
   useEffect(() => {
     const vehicleDetails = vehicles.find((v) => v._id === id);
@@ -46,12 +45,12 @@ const VehicleDetails = () => {
     } else {
       setError("Vehicle not found");
     }
-  }, [id, vehicles, getUserById, refreshKey]);
+  }, [id, vehicles, getUserById]);
 
   const handleDelete = async () => {
     try {
       await deleteVehicle(id);
-      navigate("/vehicles");
+      navigate("/");
     } catch (error) {
       console.error("Error deleting vehicle:", error);
       setError("Failed to delete vehicle");
@@ -119,7 +118,7 @@ const VehicleDetails = () => {
   }
 
   return (
-    <Container key={refreshKey ? "1" : "2"}>
+    <Container>
       <div className="row">
         <div className="col-md-8">
           <h2>{vehicle.name}</h2>

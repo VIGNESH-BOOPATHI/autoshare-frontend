@@ -54,7 +54,7 @@ const EditVehicle = ({refreshVehicleList}) => {
       // Update the vehicle, including the image, by calling the updateVehicle function
       await updateVehicle(id, values);
       setError(null); // Reset error state
-      navigate(`/vehicles`); // Redirect to vehicle listing
+      navigate(`/`); // Redirect to vehicle listing
       refreshVehicleList();
     } catch (error) {
       setError(error.response?.data?.error || 'Failed to update vehicle'); // Handle error

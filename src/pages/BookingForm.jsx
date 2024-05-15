@@ -91,7 +91,7 @@ const BookingForm = ({ vehicleId }) => {
           if (jsonRes.msg === 'success') {
             await createBooking({ vehicleId, duration: values.duration });
             // Navigate to VehicleList after successful booking
-            navigate('/vehicles', { replace: true });
+            navigate('/', { replace: true });
           }
         },
         prefill: {

@@ -43,7 +43,7 @@ const BookingDetails = () => {
     const handleCancelBooking = async () => {
         try{
             await deleteBooking(id);
-            navigate("/vehicles");
+            navigate("/");
         }catch (error){
             console.error("Error cancelling booking:", error);
              // Handle error
