@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
+import { FaSync } from 'react-icons/fa'; // Importing the refresh icon
 import AuthContext from '../context/AuthContext';
 
 // Images used in the carousel
@@ -11,19 +12,18 @@ import image3 from './photos/william-daigneault-WPNm2A_lAQo-unsplash.jpg';
 const Home = () => {
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    // Display alert message with OK button
-    alert('This action requires reload');
-  }, []);
-
   const handleReload = () => {
-    // Reload the website
-    window.location.reload();
+    window.location.reload(); // Reload the website
   };
 
   return (
     <div className="container">
-      <h1>Welcome to AutoShare</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Welcome to AutoShare</h1>
+        <div onClick={handleReload} style={{ cursor: 'pointer' }}>
+          <FaSync size={20} />
+        </div>
+      </div>
       <p>Rent vehicles of all types quickly and easily.</p>
 
       <Carousel>
