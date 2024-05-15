@@ -59,7 +59,7 @@ const Sidebar = () => {
             ) : (
               bookings.map((booking) => (
                 <li key={booking._id}>
-                  <Link to={`/vehicles/${booking.vehicleId._id}`} className="text-decoration-none">
+                  <Link to={`/booking/${booking._id}`} className="text-decoration-none">
                     {booking._id}
                   </Link>
                 </li>

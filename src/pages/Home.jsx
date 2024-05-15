@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 
@@ -6,8 +6,12 @@ import Carousel from 'react-bootstrap/Carousel';
 import image1 from './photos/lance-asper-50cIn5ELxLo-unsplash.jpg';
 import image2 from './photos/pixel-blast-Nynx8Z9Y-mQ-unsplash.jpg';
 import image3 from './photos/william-daigneault-WPNm2A_lAQo-unsplash.jpg';
-
-const Home = () => (
+import AuthContext from '../context/AuthContext';
+const Home = () => {
+  const {user} =  useContext(AuthContext);
+  
+  
+  return (
   <div className="container">
     <h1>Welcome to AutoShare</h1>
     <p>Rent vehicles of all types quickly and easily.</p>
@@ -47,9 +51,10 @@ const Home = () => (
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
-
-    <Link to="/vehicles" className="btn btn-primary">View Vehicles</Link>
+  {user ? (<Link to="/vehicles" className="btn btn-primary">View Vehicles</Link>) :
+  (<Link to="/login" className="btn btn-primary">View Vehicles</Link>)}
+    
   </div>
 );
-
+};
 export default Home; // Default export

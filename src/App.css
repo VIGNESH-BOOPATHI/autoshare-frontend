@@ -149,3 +149,26 @@
 .sidebar.open .arrow {
   transform: rotate(180deg); /* Rotate the arrow when sidebar is open */
 }
+
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.details-content {
+  flex: 0 1 60%;
+  margin-right: 20px; /* Adjust margin as needed */
+}
+
+.reviews-container {
+  flex: 0 1 40%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.booked{
+  color: red;
+}

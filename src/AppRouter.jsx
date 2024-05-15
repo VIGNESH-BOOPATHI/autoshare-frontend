@@ -15,6 +15,7 @@ import useAuthToken from './hooks/useAuthToken'; // Ensure correct import
 import EditVehicle from './pages/EditVehicle';
 import BookingForm from './pages/BookingForm';
 import Sidebar from './components/Sidebar'; // Import the Sidebar component
+import BookingDetails from './pages/BookingDetails';
 
 const AppRouter = () => {
   useAuthToken(); // Make sure this is used within the AuthProvider context
@@ -35,6 +36,7 @@ const AppRouter = () => {
         <Route path="/manage-vehicles" element={<VehicleManagement />} /> {/* Vehicle management */}
         <Route path="/edit-vehicle/:id"  element={<EditVehicle />} />  {/*Edit Vehicle */}
         <Route path='/booking-form' element={<BookingForm />} />
+        <Route path='/booking/:id' element={<BookingDetails />} />
       </Routes>
       <Footer />
     </Router>
