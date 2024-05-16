@@ -8,10 +8,10 @@ const Header = () => {
   const navigate = useNavigate(); // Navigation to switch routes
 
 
-  useEffect(() => {
-    // Display alert message with OK button
-    alert('Click the reload icon, whenever Home is shown');
-  }, []);
+  // useEffect(() => {
+  //   // Display alert message with OK button
+  //   alert('Click the reload icon, whenever Home is shown');
+  // }, []);
 
   const toggleNavbar = () => {
     setIsNavbarOpen(!isNavbarOpen);

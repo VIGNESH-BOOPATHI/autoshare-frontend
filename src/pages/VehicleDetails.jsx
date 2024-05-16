@@ -6,6 +6,7 @@ import { DataContext } from "../context/DataContext";
 import { BookingContext } from "../context/BookingContext";
 import BookingForm from "./BookingForm";
 import axios from "axios";
+import { AiFillStar } from 'react-icons/ai'; // Import the star icon
 
 const VehicleDetails = () => {
   const { id } = useParams();
@@ -21,31 +22,45 @@ const VehicleDetails = () => {
   const { authToken } = useContext(AuthContext); // Get authToken from AuthContext
 
   useEffect(() => {
-    const vehicleDetails = vehicles.find((v) => v._id === id);
-    if (vehicleDetails) {
-      setVehicle(vehicleDetails);
-      const ownerId = vehicleDetails.addedBy;
-      getUserById(ownerId)
-        .then((user) => {
-          setOwnerName(user.name);
-        })
-        .catch((err) => {
-          console.error("Error fetching owner info:", err);
-          setError("Failed to fetch owner details");
+    const fetchData = async () => {
+      try {
+        const vehicleDetails = vehicles.find((v) => v._id === id);
+        if (vehicleDetails) {
+          setVehicle(vehicleDetails);
+          const ownerId = vehicleDetails.addedBy;
+          const owner = await getUserById(ownerId);
+          setOwnerName(owner.name);
+        } else {
+          setError("Vehicle not found");
+        }
+      } catch (err) {
+        console.error("Error fetching vehicle details:", err);
+        setError("Failed to fetch vehicle details");
+      }
+    };
+
+    fetchData();
+  }, [id, vehicles, getUserById]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`https://autoshare-backend.onrender.com/reviews/${id}`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         });
-         // Fetch reviews for the current vehicle
-      axios.get(`https://autoshare-backend.onrender.com/reviews/${id}`)
-      .then((response) => {
         setReviews(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching reviews:", error);
         setError("Failed to fetch reviews");
-      });
-    } else {
-      setError("Vehicle not found");
+      }
+    };
+
+    if (id) {
+      fetchReviews();
     }
-  }, [id, vehicles, getUserById]);
+  }, [id, authToken]);
 
   const handleDelete = async () => {
     try {
@@ -65,38 +80,12 @@ const VehicleDetails = () => {
     setShowBookingModal(true);
   };
 
-  // const handleCancelBooking = async () => {
-  //   try {
-  //     const res = await axios.get('https://autoshare-backend.onrender.com/bookings', {
-  //       headers: {
-  //         Authorization: `Bearer ${authToken}` // Include the authToken in the request headers
-  //       }
-  //     });
-      
-  //     const bookingList = res.data;
-  //     const booking = bookingList.find(booking => booking.vehicleId._id === id);
-  //     console.log(booking);
-  //     if (booking) {
-  //       const bookingId = booking._id;
-  //       await deleteBooking(bookingId);
-  //       // Update the state or perform any necessary actions after successful cancellation
-  //       navigate("/vehicles"); // Navigate to the VehicleList component after successful cancellation
-  //     } else {
-  //       console.log("Booking Id is not found");
-  //     }
-      
-  //   } catch (error) {
-  //     console.error("Error cancelling booking:", error);
-  //     // Handle error
-  //   }
-  // };
-
   // Function to generate star icons based on rating
   const renderStars = (rating) => {
     const starCount = Math.round(rating);
     const stars = [];
     for (let i = 0; i < starCount; i++) {
-      stars.push(<i key={i} className="bi bi-star-fill text-warning"></i>);
+      stars.push(<AiFillStar key={i} className="text-warning" />);
     }
     return stars;
   };
@@ -155,10 +144,6 @@ const VehicleDetails = () => {
           {user && user.userId !== vehicle.addedBy && !vehicle.available && (
             <p className="booked">The Vehicle is Booked</p>
           )}
-
-{/* <Button variant="danger" onClick={handleCancelBooking}>
-              Cancel Booking
-            </Button> */}
           <Modal show={showBookingModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
               <Modal.Title>Book {vehicle.name}</Modal.Title>
@@ -176,8 +161,9 @@ const VehicleDetails = () => {
           ) : (
             <ul>
               {reviews.map((review) => (
-                <li key={review._id}>
-                  <p>User: {getUserById(review.userId).name}</p>
+                <li key={review._id} style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", marginBottom: "10px", padding: "10px" }}>
+
+                  <p>User: {review.userId.name}</p>
                   <p>Rating: {renderStars(review.rating)}</p>
                   <p>Comment: {review.comment}</p>
                 </li>

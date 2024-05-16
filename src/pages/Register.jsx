@@ -2,8 +2,11 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate(); // Initialize useHistory hook
+
   const initialValues = {
     email: '',
     password: '',
@@ -25,6 +28,8 @@ const Register = () => {
       .post('https://autoshare-backend.onrender.com/auth/register', values)
       .then((response) => {
         setStatus({ success: response.data.message });
+        // Navigate to the login component after successful registration
+        navigate("/login");
       })
       .catch((error) => {
         const errorMsg = error.response?.data?.error || 'Registration failed';

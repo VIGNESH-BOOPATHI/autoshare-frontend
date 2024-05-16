@@ -12,7 +12,6 @@ import image3 from './photos/william-daigneault-WPNm2A_lAQo-unsplash.jpg';
 const Home = () => {
   const { user } = useContext(AuthContext);
 
-
   const handleReload = () => {
     window.location.reload(); // Reload the website
   };
@@ -29,21 +28,21 @@ const Home = () => {
 
       <Carousel>
         <Carousel.Item>
-          <img className="d-block w-100" src={image1} alt="First slide" />
+          <img className="d-block w-100" src={image1} alt="First slide" style={{ height: '400px', objectFit: 'cover' }} />
           <Carousel.Caption>
             <h3>First slide label</h3>
             <p>Discover our latest vehicles.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="d-block w-100" src={image2} alt="Second slide" />
+          <img className="d-block w-100" src={image2} alt="Second slide" style={{ height: '400px', objectFit: 'cover' }} />
           <Carousel.Caption>
             <h3>Second slide label</h3>
             <p>Experience top-notch quality.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="d-block w-100" src={image3} alt="Third slide" />
+          <img className="d-block w-100" src={image3} alt="Third slide" style={{ height: '400px', objectFit: 'cover' }} />
           <Carousel.Caption>
             <h3>Third slide label</h3>
             <p>Book now and enjoy amazing offers!</p>
